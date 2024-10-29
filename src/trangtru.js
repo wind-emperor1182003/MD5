@@ -1,4 +1,5 @@
 import React from 'react';
+import diagram from './img/img1.png'; // Import the image file
 
 function TrangTru() {
   return (
@@ -11,6 +12,12 @@ function TrangTru() {
       <h2 style={styles.subtitle}>Lý Thuyết Cơ Bản Về MD5</h2>
       <p style={styles.paragraph}>
         MD5 (Message Digest Algorithm 5) là một hàm băm mật mã học, được thiết kế để sử dụng như một mã kiểm tra để phát hiện dữ liệu bị hỏng. MD5 tạo ra một chuỗi băm dài 128-bit (16 byte) từ một chuỗi dữ liệu đầu vào. Nó thường được sử dụng để kiểm tra tính toàn vẹn của tệp và trong các ứng dụng bảo mật khác.
+      </p>
+
+      <h2 style={styles.subtitle}>Sơ Đồ Giải Thuật MD5</h2>
+      <img src={diagram} alt="MD5 Algorithm Diagram" style={styles.image} />
+      <p style={styles.paragraph}>
+        Sơ đồ trên minh họa cách thuật toán MD5 xử lý các khối dữ liệu đầu vào, bắt đầu từ việc bổ sung (padding) cho đến khi đạt được mã băm cuối cùng. Thuật toán chia thông điệp thành các khối 512-bit và xử lý từng khối để tạo ra mã băm dài 128-bit.
       </p>
 
       <h2 style={styles.subtitle}>Các Đặc Điểm Chính Của MD5</h2>
@@ -44,7 +51,7 @@ function TrangTru() {
 }
 
 const styles = {
-   container: {
+  container: {
     padding: '20px',
     backgroundColor: '#f9f9f9',
     borderRadius: '10px',
@@ -89,6 +96,12 @@ const styles = {
     backgroundColor: '#f4f4f4',
     borderRadius: '5px',
     marginTop: '10px',
+  },
+  image: {
+    display: 'block',
+    maxWidth: '100%',
+    marginTop: '10px',
+    borderRadius: '10px',
   },
   footer: {
     marginTop: '20px',
