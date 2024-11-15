@@ -19,17 +19,11 @@ function Menu() {
           </button>
         </div>
         <ul style={styles.menuList}>
-          <MenuItem icon={<FaEnvelope />} label="Xác thực Email" isOpen={isOpen} />
-          <MenuItem icon={<FaInfoCircle />} label="Thông tin IP" isOpen={isOpen} />
-          <MenuItem icon={<FaCompress />} label="Nén ảnh" isOpen={isOpen} />
-          <MenuItem icon={<FaQrcode />} label="Tạo mã QR Code" isOpen={isOpen} />
-          <MenuItem icon={<FaCode />} label="HTML/CSS Tool" isOpen={isOpen} />
+          
           <MenuItem icon={<FaKey />} label={<Link to="/MD5Generator" style={styles.linkStyle}>Mã hóa MD5</Link>} isOpen={isOpen} />
           <MenuItem icon={<FaHome />} label={<Link to="/trangtru" style={styles.linkStyle}>Trang Chủ</Link>} isOpen={isOpen} />
           
-          <MenuItem icon={<FaDollarSign />} label="Bảng giá" isOpen={isOpen} />
-          <MenuItem icon={<FaTools />} label="Công cụ kiểm tra" isOpen={isOpen} />
-          <MenuItem icon={<FaFileAlt />} label="Tài liệu mô tả kết nối API" isOpen={isOpen} />
+         
         </ul>
       </div>
     </div>
