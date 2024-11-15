@@ -4,6 +4,7 @@ import MD5Generator from './MD5Generator';
 import Menu from './Menu';
 import TrangTru from './trangtru'; // Ensure the casing matches the file name
 
+
 function App() {
   return (
     <Router>
@@ -14,6 +15,7 @@ function App() {
             <Route path="/" element={<MD5Generator />} /> {/* Default route */}
             <Route path="/trangtru" element={<TrangTru />} /> {/* TrangTru route */}
             <Route path="/MD5Generator" element={<MD5Generator />} /> {/* TrangTru route */}
+           
             {/* Add other routes here */}
           </Routes>
         </div>

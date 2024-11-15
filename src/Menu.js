@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaEnvelope, FaInfoCircle, FaCompress, FaQrcode, FaCode, FaKey, FaHome, FaDollarSign, FaTools, FaFileAlt } from 'react-icons/fa';
+import { FaEnvelope, FaInfoCircle, FaCompress, FaQrcode, FaCode, FaKey, FaHome, FaDollarSign, FaTools, FaFileAlt, } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 function Menu() {
@@ -26,6 +26,7 @@ function Menu() {
           <MenuItem icon={<FaCode />} label="HTML/CSS Tool" isOpen={isOpen} />
           <MenuItem icon={<FaKey />} label={<Link to="/MD5Generator" style={styles.linkStyle}>Mã hóa MD5</Link>} isOpen={isOpen} />
           <MenuItem icon={<FaHome />} label={<Link to="/trangtru" style={styles.linkStyle}>Trang Chủ</Link>} isOpen={isOpen} />
+          
           <MenuItem icon={<FaDollarSign />} label="Bảng giá" isOpen={isOpen} />
           <MenuItem icon={<FaTools />} label="Công cụ kiểm tra" isOpen={isOpen} />
           <MenuItem icon={<FaFileAlt />} label="Tài liệu mô tả kết nối API" isOpen={isOpen} />

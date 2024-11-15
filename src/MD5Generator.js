@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-// Hàm băm MD5 viết bằng JavaScript
+
+// MD5 hash function in JavaScript
 function md5(string) {
-  function RotateLeft(lValue, iShiftBits) {
+  function RotateLeft(lValue, iShiftBits) { 
     return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
   }
 
@@ -107,13 +108,14 @@ function md5(string) {
     return utftext;
   }
 
-  var x = Array();
-  var k, AA, BB, CC, DD, a, b, c, d;
+  let x = Array();
+  let k, AA, BB, CC, DD, a, b, c, d;
   var S11 = 7, S12 = 12, S13 = 17, S14 = 22;
   var S21 = 5, S22 = 9, S23 = 14, S24 = 20;
   var S31 = 4, S32 = 11, S33 = 16, S34 = 23;
   var S41 = 6, S42 = 10, S43 = 15, S44 = 21;
 
+ 
   string = Utf8Encode(string);
 
   x = ConvertToWordArray(string);
@@ -123,11 +125,19 @@ function md5(string) {
   c = 0x98BADCFE;
   d = 0x10325476;
 
+  var FF_values = [];
+  var GG_values = [];
+  var HH_values = [];
+  var II_values = [];
+ 
+
   for (k = 0; k < x.length; k += 16) {
     AA = a;
     BB = b;
     CC = c;
     DD = d;
+
+    // Vòng FF
     a = FF(a, b, c, d, x[k], S11, 0xD76AA478);
     d = FF(d, a, b, c, x[k + 1], S12, 0xE8C7B756);
     c = FF(c, d, a, b, x[k + 2], S13, 0x242070DB);
@@ -144,12 +154,16 @@ function md5(string) {
     d = FF(d, a, b, c, x[k + 13], S12, 0xFD987193);
     c = FF(c, d, a, b, x[k + 14], S13, 0xA679438E);
     b = FF(b, c, d, a, x[k + 15], S14, 0x49B40821);
+    // Lưu giá trị sau vòng FF
+    FF_values.push([a, b, c, d]);
+
+    // Vòng GG
     a = GG(a, b, c, d, x[k + 1], S21, 0xF61E2562);
     d = GG(d, a, b, c, x[k + 6], S22, 0xC040B340);
     c = GG(c, d, a, b, x[k + 11], S23, 0x265E5A51);
     b = GG(b, c, d, a, x[k], S24, 0xE9B6C7AA);
     a = GG(a, b, c, d, x[k + 5], S21, 0xD62F105D);
-    d = GG(d, a, b, c, x[k + 10], S22, 0x02441453);
+    d = GG(d, a, b, c, x[k + 10], S22, 0x2441453);
     c = GG(c, d, a, b, x[k + 15], S23, 0xD8A1E681);
     b = GG(b, c, d, a, x[k + 4], S24, 0xE7D3FBC8);
     a = GG(a, b, c, d, x[k + 9], S21, 0x21E1CDE6);
@@ -160,6 +174,10 @@ function md5(string) {
     d = GG(d, a, b, c, x[k + 2], S22, 0xFCEFA3F8);
     c = GG(c, d, a, b, x[k + 7], S23, 0x676F02D9);
     b = GG(b, c, d, a, x[k + 12], S24, 0x8D2A4C8A);
+    // Lưu giá trị sau vòng GG
+    GG_values.push([a, b, c, d]);
+
+    // Vòng HH
     a = HH(a, b, c, d, x[k + 5], S31, 0xFFFA3942);
     d = HH(d, a, b, c, x[k + 8], S32, 0x8771F681);
     c = HH(c, d, a, b, x[k + 11], S33, 0x6D9D6122);
@@ -176,6 +194,10 @@ function md5(string) {
     d = HH(d, a, b, c, x[k + 12], S32, 0xE6DB99E5);
     c = HH(c, d, a, b, x[k + 15], S33, 0x1FA27CF8);
     b = HH(b, c, d, a, x[k + 2], S34, 0xC4AC5665);
+    // Lưu giá trị sau vòng HH
+    HH_values.push([a, b, c, d]);
+
+    // Vòng II
     a = II(a, b, c, d, x[k], S41, 0xF4292244);
     d = II(d, a, b, c, x[k + 7], S42, 0x432AFF97);
     c = II(c, d, a, b, x[k + 14], S43, 0xAB9423A7);
@@ -192,30 +214,88 @@ function md5(string) {
     d = II(d, a, b, c, x[k + 11], S42, 0xBD3AF235);
     c = II(c, d, a, b, x[k + 2], S43, 0x2AD7D2BB);
     b = II(b, c, d, a, x[k + 9], S44, 0xEB86D391);
+    // Lưu giá trị sau vòng II
+    II_values.push([a, b, c, d]);
+
+    // Cộng lại với giá trị ban đầu
     a = AddUnsigned(a, AA);
     b = AddUnsigned(b, BB);
     c = AddUnsigned(c, CC);
     d = AddUnsigned(d, DD);
   }
 
-  var temp = WordToHex(a) + WordToHex(b) + WordToHex(c) + WordToHex(d);
-  return temp.toLowerCase();
-}
 
-// Component React với hàm tự viết MD5
+  var temp = WordToHex(a) + WordToHex(b) + WordToHex(c) + WordToHex(d);
+  return {
+    hash: temp.toLowerCase(),
+    FF: FF_values,
+    GG: GG_values,
+    HH: HH_values,
+    II: II_values,
+    final: { a: WordToHex(a), b: WordToHex(b), c: WordToHex(c), d: WordToHex(d) }
+  };
+}
 function MD5Generator() {
   const [input, setInput] = useState("");
   const [hash, setHash] = useState("");
+  const [binaryInput, setBinaryInput] = useState(""); // State for binary input
+  const [binaryPadded, setBinaryPadded] = useState(""); // State for padded 512-bit binary input
+  const [copied, setCopied] = useState(false);
+  const [ffValues, setFFValues] = useState([]);
+  const [ggValues, setGGValues] = useState([]);
+  const [hhValues, setHHValues] = useState([]);
+  const [iiValues, setIIValues] = useState([]);
+  const [finalValues, setFinalValues] = useState({ a: "", b: "", c: "", d: "" }); // State for final MD5 values
 
   const handleEncrypt = () => {
     const result = md5(input);
-    setHash(result);
+    setHash(result.hash);
+    const binary = stringToBinary(input);
+    setBinaryInput(binary);
+    setBinaryPadded(padTo512Bits(binary)); // Pad binary input to 512 bits
+    setCopied(false); // Reset copy status when generating a new hash
+
+    setFFValues(result.FF);  // Lưu các giá trị vòng FF
+    setGGValues(result.GG);  // Lưu các giá trị vòng GG
+    setHHValues(result.HH);  // Lưu các giá trị vòng HH
+    setIIValues(result.II);  // Lưu các giá trị vòng II
+    setFinalValues(result.final);
+     
   };
+  
 
   const handleCopy = () => {
     navigator.clipboard.writeText(hash);
-    alert("Hash copied to clipboard!");
+    setCopied(true); // Set copy status to true when copied
   };
+
+  // Convert string to binary
+  function stringToBinary(string) {
+    return string.split('').map(char => {
+      const binary = char.charCodeAt(0).toString(2);
+      return '00000000'.slice(binary.length) + binary; // Pad to 8 bits
+    }).join('');
+  }
+
+  // Pad binary string to 512 bits according to MD5 specification
+  function padTo512Bits(binaryString) {
+    // Remove any spaces and ensure it's a clean binary string
+    let cleanBinary = binaryString.replace(/\s+/g, '');
+    const originalLength = cleanBinary.length; // Original length in bits
+    let paddedBinary = cleanBinary + '1'; // Append '1'
+
+    // Pad with '0's until length is 448 modulo 512
+    while (paddedBinary.length % 512 !== 448) {
+      paddedBinary += '0';
+    }
+
+    // Append the original length as a 64-bit binary string
+    const originalLengthBinary = originalLength.toString(2).padStart(64, '0');
+    paddedBinary += originalLengthBinary; // Append the length of the original input in bits
+
+    return paddedBinary; // Return the complete 512-bit padded binary string
+  }
+  
 
   return (
     <div style={styles.container}>
@@ -238,86 +318,230 @@ function MD5Generator() {
           Sao chép
         </button>
       </div>
-      <div style={styles.resultGroup}>
-        <h4 style={styles.resultTitle}>Kết quả</h4>
-        <input
-          type="text"
-          value={hash}
-          readOnly
-          style={styles.resultInput}
-        />
-      </div>
-    </div>
-  );
-}
+      {hash && (
+        <div style={styles.resultGroup}>
+          <h4 style={styles.resultTitle}>Kết quả</h4>
+          <input
+            type="text"
+            value={hash}
+            readOnly
+            style={styles.resultInput}
+          />
+          <p
+            style={{
+              ...styles.hashInfo,
+              color: copied ? "#28a745" : "#666",
+            }}
+          >
+            Độ dài mã: {hash.length} ký tự - {copied ? "Đã sao chép!" : "Chưa sao chép"}
+          </p>
+        </div>
+      )}
+      {input && (
+        <div style={styles.resultGroup}>
+          <h4 style={styles.resultTitle}>Chuỗi nhị phân</h4>
+          <input
+            type="text"
+            value={binaryInput}
+            readOnly
+            style={styles.resultInput}
+          />
+        </div>
+      )}
+      {binaryInput && (
+        <div style={styles.resultGroup}>
+          <h4 style={styles.resultTitle}>Chuỗi nhị phân 512 bit</h4>
+          <input
+            type="text"
+            value={binaryPadded}
+            readOnly
+            style={styles.resultInput}
+          />
+        </div>
+      )}
+      {binaryPadded && (
+        <div style={styles.resultGroup}>
+          <h4 style={styles.resultTitle}>16 Khối 512 bit</h4>
+          {Array.from({ length: 16 }).map((_, index) => (
+            <div key={index} style={styles.blockRow}>
+              <span style={styles.blockLabel}>Khối {index + 1}:</span>
+              <input
+                type="text"
+                value={binaryPadded.slice(index * 32, (index + 1) * 32)}
+                readOnly
+                style={styles.resultInput}
+              />
+            </div>
+          ))}
+        </div>
+      )}
+    {ffValues.length > 0 && (
+        <div style={styles.resultGroup}>
+          <h4 style={styles.resultTitle}>Giá trị sau vòng FF</h4>
+          {ffValues.map((val, index) => (
+            <div key={index}>
+              <p>Vòng {index + 1}: {JSON.stringify(val)}</p>
+            </div>
+          ))}
+        </div>
+      )}
 
+      {ggValues.length > 0 && (
+        <div style={styles.resultGroup}>
+          <h4 style={styles.resultTitle}>Giá trị sau vòng GG</h4>
+          {ggValues.map((val, index) => (
+            <div key={index}>
+              <p>Vòng {index + 2}: {JSON.stringify(val)}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {hhValues.length > 0 && (
+        <div style={styles.resultGroup}>
+          <h4 style={styles.resultTitle}>Giá trị sau vòng HH</h4>
+          {hhValues.map((val, index) => (
+            <div key={index}>
+              <p>Vòng {index + 3}: {JSON.stringify(val)}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {iiValues.length > 0 && (
+        <div style={styles.resultGroup}>
+          <h4 style={styles.resultTitle}>Giá trị sau vòng II</h4>
+          {iiValues.map((val, index) => (
+            <div key={index}>
+              <p>Vòng {index + 4}: {JSON.stringify(val)}</p>
+            </div>
+          ))}
+        </div>
+     )}
+     {finalValues && (
+       <div style={styles.resultGroup}>
+         <h4 style={styles.resultTitle}>Giá trị cuối cùng của MD5 (Hex)</h4>
+         <p>a: {finalValues.a}</p>
+         <p>b: {finalValues.b}</p>
+         <p>c: {finalValues.c}</p>
+         <p>d: {finalValues.d}</p>
+       </div>
+     )}
+   </div>
+ );
+}
 const styles = {
   container: {
     padding: "20px",
     textAlign: "center",
-    backgroundColor: "#f9f9f9",
-    borderRadius: "10px",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-    width: "400px",
+    backgroundColor: "#ffffff",
+    borderRadius: "12px",
+    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
+    width: "450px",
     margin: "auto",
     marginTop: "50px",
+    fontFamily: "'Arial', sans-serif",
   },
   title: {
-    marginBottom: "20px",
+    fontSize: "24px",
+    fontWeight: "bold",
     color: "#333",
+    marginBottom: "20px",
   },
   inputGroup: {
-    marginBottom: "15px",
+    marginBottom: "20px",
   },
   label: {
     display: "block",
-    marginBottom: "5px",
-    color: "#666",
+    fontSize: "16px",
+    color: "#555",
+    marginBottom: "8px",
+    fontWeight: "500",
   },
   input: {
-    padding: "10px",
+    padding: "12px",
     width: "100%",
-    borderRadius: "5px",
-    border: "1px solid #ccc",
+    borderRadius: "8px",
+    border: "1px solid #ddd",
+    fontSize: "16px",
     boxSizing: "border-box",
+    transition: "border-color 0.3s",
   },
   buttonGroup: {
-    marginBottom: "15px",
+    display: "flex",
+    justifyContent: "center",
+    gap: "15px",
+    marginBottom: "20px",
   },
   buttonEncrypt: {
-    marginRight: "10px",
-    padding: "10px 20px",
-    borderRadius: "5px",
+    padding: "12px 25px",
+    borderRadius: "8px",
     border: "none",
-    backgroundColor: "#28a745",
+    backgroundColor: "#007bff",
     color: "#fff",
+    fontSize: "16px",
+    fontWeight: "bold",
     cursor: "pointer",
+    transition: "background-color 0.3s",
   },
   buttonCopy: {
-    padding: "10px 20px",
-    borderRadius: "5px",
+    padding: "12px 25px",
+    borderRadius: "8px",
     border: "none",
     backgroundColor: "#6c757d",
     color: "#fff",
+    fontSize: "16px",
+    fontWeight: "bold",
     cursor: "pointer",
+    transition: "background-color 0.3s",
+  },
+  buttonEncryptHover: {
+    backgroundColor: "#0056b3",
+  },
+  buttonCopyHover: {
+    backgroundColor: "#5a6268",
   },
   resultGroup: {
+    backgroundColor: "#f8f9fa",
+    borderRadius: "8px",
+    padding: "15px",
     marginTop: "20px",
+    border: "1px solid #ddd",
   },
   resultTitle: {
-    marginBottom: "5px",
-    color: "#666",
+    fontSize: "18px",
+    fontWeight: "600",
+    color: "#333",
+    marginBottom: "10px",
   },
   resultInput: {
     padding: "10px",
     width: "100%",
     borderRadius: "5px",
-    border: "1px solid #ccc",
+    border: "1px solid #ddd",
+    fontSize: "15px",
+    color: "#555",
+    backgroundColor: "#fafafa",
+    marginTop: "5px",
     boxSizing: "border-box",
   },
+  hashInfo: {
+    marginTop: "10px",
+    fontSize: "14px",
+    color: "#007bff",
+    fontWeight: "500",
+  },
+  blockRow: {
+    display: "flex",
+    alignItems: "center",
+    gap: "10px",
+    marginBottom: "8px",
+  },
+  blockLabel: {
+    fontSize: "15px",
+    color: "#333",
+    fontWeight: "bold",
+    width: "80px",
+  },
 };
-
-
 export default MD5Generator;
-
-
