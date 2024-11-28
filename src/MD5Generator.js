@@ -247,6 +247,19 @@ function MD5Generator() {
   const [iiValues, setIIValues] = useState([]);
   const [finalValues, setFinalValues] = useState({ a: "", b: "", c: "", d: "" }); // State for final MD5 values
 
+  const handleReset = () => {
+    setInput("");
+    setHash("");
+    setBinaryInput("");
+    setBinaryPadded("");
+    setCopied(false);
+    setFFValues([]);
+    setGGValues([]);
+    setHHValues([]);
+    setIIValues([]);
+    setFinalValues(null);
+  };
+  
   const handleEncrypt = () => {
     const result = md5(input);
     setHash(result.hash);
@@ -304,11 +317,20 @@ function MD5Generator() {
         <label style={styles.label}>Chuỗi cần mã hóa *</label>
         <input
           type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Nhập chuỗi"
-          style={styles.input}
-        />
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            if (input.trim() === "") {
+              alert("Vui lòng nhập chuỗi cần mã hóa!");
+              return;
+            }
+            handleEncrypt();
+          }
+        }}
+        placeholder="Nhập chuỗi"
+        style={styles.input}
+      />
       </div>
       <div style={styles.buttonGroup}>
         <button onClick={handleEncrypt} style={styles.buttonEncrypt}>
@@ -317,7 +339,11 @@ function MD5Generator() {
         <button onClick={handleCopy} style={styles.buttonCopy} disabled={!hash}>
           Sao chép
         </button>
+        <button onClick={handleReset} style={styles.buttonReset}>
+    Đặt lại
+  </button>
       </div>
+      
       {hash && (
         <div style={styles.resultGroup}>
           <h4 style={styles.resultTitle}>Kết quả</h4>
@@ -542,6 +568,17 @@ const styles = {
     color: "#333",
     fontWeight: "bold",
     width: "80px",
+  },
+  buttonReset: {
+    padding: "12px 25px",
+    borderRadius: "8px",
+    border: "none",
+    backgroundColor: "#dc3545",
+    color: "#fff",
+    fontSize: "16px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    transition: "background-color 0.3s",
   },
 };
 export default MD5Generator;
