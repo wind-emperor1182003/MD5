@@ -246,6 +246,7 @@ function MD5Generator() {
   const [hhValues, setHHValues] = useState([]);
   const [iiValues, setIIValues] = useState([]);
   const [finalValues, setFinalValues] = useState({ a: "", b: "", c: "", d: "" }); // State for final MD5 values
+  
 
   const handleReset = () => {
     setInput("");
@@ -374,17 +375,22 @@ function MD5Generator() {
           />
         </div>
       )}
-      {binaryInput && (
-        <div style={styles.resultGroup}>
-          <h4 style={styles.resultTitle}>Chuỗi nhị phân 512 bit</h4>
-          <input
-            type="text"
-            value={binaryPadded}
-            readOnly
-            style={styles.resultInput}
-          />
-        </div>
-      )}
+     {binaryInput && (
+  <div style={styles.resultGroup}>
+    <h4 style={styles.resultTitle}>Chuỗi nhị phân 512 bit</h4>
+    <textarea
+      value={binaryPadded}
+      readOnly
+      style={{
+        ...styles.resultInput, // Kế thừa các style hiện có
+        whiteSpace: "pre-wrap", // Giữ định dạng và tự xuống hàng
+        resize: "none", // Ngăn thay đổi kích thước nếu cần
+        height: "auto", // Tự điều chỉnh chiều cao theo nội dung
+      }}
+      rows={8} // Số dòng hiển thị ban đầu (có thể điều chỉnh)
+    />
+  </div>
+)}
       {binaryPadded && (
         <div style={styles.resultGroup}>
           <h4 style={styles.resultTitle}>16 Khối 512 bit</h4>
@@ -467,6 +473,8 @@ const styles = {
     margin: "auto",
     marginTop: "50px",
     fontFamily: "'Arial', sans-serif",
+    maxHeight: "90vh", // Chiều cao tối đa của container
+    overflowY: "auto", // Cho phép cuộn dọc
   },
   title: {
     fontSize: "24px",
@@ -521,11 +529,16 @@ const styles = {
     cursor: "pointer",
     transition: "background-color 0.3s",
   },
-  buttonEncryptHover: {
-    backgroundColor: "#0056b3",
-  },
-  buttonCopyHover: {
-    backgroundColor: "#5a6268",
+  buttonReset: {
+    padding: "12px 25px",
+    borderRadius: "8px",
+    border: "none",
+    backgroundColor: "#dc3545",
+    color: "#fff",
+    fontSize: "16px",
+    fontWeight: "bold",
+    cursor: "pointer",
+    transition: "background-color 0.3s",
   },
   resultGroup: {
     backgroundColor: "#f8f9fa",
@@ -533,6 +546,8 @@ const styles = {
     padding: "15px",
     marginTop: "20px",
     border: "1px solid #ddd",
+    maxHeight: "300px", // Chiều cao tối đa của phần kết quả
+    overflowY: "auto", // Cho phép cuộn
   },
   resultTitle: {
     fontSize: "18px",
@@ -542,7 +557,7 @@ const styles = {
   },
   resultInput: {
     padding: "10px",
-    width: "100%",
+    width: "100%", // Tăng chiều rộng
     borderRadius: "5px",
     border: "1px solid #ddd",
     fontSize: "15px",
@@ -580,5 +595,8 @@ const styles = {
     cursor: "pointer",
     transition: "background-color 0.3s",
   },
+  
 };
+
+
 export default MD5Generator;
