@@ -6,7 +6,7 @@ function TrangTru() {
     <div style={styles.container}>
       <div style={styles.banner}>
         <h1 style={styles.title}>Chào Mừng Đến Với MD5</h1>
-        <p style={styles.bannerText}>Tìm hiểu về thuật toán băm MD5 và ứng dụng của nó!</p>
+        <p style={styles.bannerText}>Tìm hiểu về thuật toán băm MD5, ứng dụng và chữ ký số!</p>
       </div>
 
       <h2 style={styles.subtitle}>Lý Thuyết Cơ Bản Về MD5</h2>
@@ -38,9 +38,36 @@ function TrangTru() {
         MD5 được sử dụng trong việc xác thực dữ liệu tải xuống từ Internet, kiểm tra tính toàn vẹn của tệp sau khi tải xuống và trong một số trường hợp mã hóa mật khẩu.
       </p>
 
+      <h2 style={styles.subtitle}>Băm File</h2>
+      <p style={styles.paragraph}>
+        Khi băm một tệp tin bằng MD5, bạn có thể sử dụng mã băm để kiểm tra tính toàn vẹn của tệp, đảm bảo rằng tệp không bị thay đổi trong quá trình truyền tải hoặc lưu trữ.
+        Mã băm MD5 cho tệp tin sẽ là một chuỗi dài 128-bit, và một thay đổi nhỏ trong tệp sẽ làm thay đổi hoàn toàn mã băm.
+      </p>
+      <p style={styles.paragraph}>
+        Ví dụ, khi băm tệp "example.txt", kết quả sẽ là: 
+        <code style={styles.code}>5d41402abc4b2a76b9719d911017c592</code>.
+      </p>
+
       <h2 style={styles.subtitle}>Lưu Ý Về Bảo Mật</h2>
       <p style={styles.paragraph}>
         Mặc dù MD5 vẫn phổ biến, nhưng hiện tại nó không còn được xem là an toàn cho các mục đích bảo mật do có những điểm yếu đã được phát hiện, cho phép tấn công va chạm (collision attack). Các thuật toán mới như SHA-256 hiện đang được ưu tiên sử dụng.
+      </p>
+
+      <h2 style={styles.subtitle}>Chữ Ký Số</h2>
+      <p style={styles.paragraph}>
+        Chữ ký số là một dạng mã hóa được sử dụng để xác nhận tính xác thực và tính toàn vẹn của một thông điệp hoặc tài liệu. Trong quá trình tạo chữ ký số, người gửi sử dụng hàm băm (như MD5) để tạo mã băm của thông điệp. Sau đó, mã băm này được mã hóa bằng khóa riêng của người gửi. Người nhận có thể sử dụng khóa công khai của người gửi để giải mã và kiểm tra tính toàn vẹn của thông điệp.
+      </p>
+      <p style={styles.paragraph}>
+        Ví dụ, một thông điệp có thể được băm bằng MD5, và mã băm sẽ được mã hóa bằng khóa riêng của người gửi để tạo chữ ký số. Khi nhận được thông điệp, người nhận sẽ băm lại thông điệp và đối chiếu với chữ ký số đã giải mã. Nếu mã băm khớp, thông điệp là nguyên vẹn và xác thực.
+      </p>
+
+      <h2 style={styles.subtitle}>Ví Dụ Về Chữ Ký Số</h2>
+      <p style={styles.paragraph}>
+        Giả sử bạn có thông điệp: 
+        <code style={styles.code}>"Chào bạn, đây là thông điệp của tôi."</code>.
+        Sau khi băm thông điệp bằng MD5, bạn sẽ có mã băm:
+        <code style={styles.code}>5f4dcc3b5aa765d61d8327deb882cf99</code>.
+        Sau đó, mã băm này được mã hóa bằng khóa riêng của người gửi để tạo ra chữ ký số.
       </p>
 
       <footer style={styles.footer}>
@@ -56,9 +83,9 @@ const styles = {
     backgroundColor: '#f9f9f9',
     borderRadius: '10px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    width: 'calc(100% - 250px)', // Set width relative to the menu width
-    height: '100vh', // Set height to match the menu
-    overflowY: 'auto', // Allow scrolling if content overflows
+    width: 'calc(100% - 250px)', 
+    height: '100vh',
+    overflowY: 'auto', 
   },
   banner: {
     backgroundColor: '#007bff',

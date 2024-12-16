@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 
 // MD5 hash function in JavaScript
-function md5(string) {
+export function md5(string) {
   function RotateLeft(lValue, iShiftBits) { 
     return (lValue << iShiftBits) | (lValue >>> (32 - iShiftBits));
   }
@@ -235,6 +235,8 @@ function md5(string) {
     final: { a: WordToHex(a), b: WordToHex(b), c: WordToHex(c), d: WordToHex(d) }
   };
 }
+
+
 function MD5Generator() {
   const [input, setInput] = useState("");
   const [hash, setHash] = useState("");
@@ -469,7 +471,7 @@ const styles = {
     backgroundColor: "#ffffff",
     borderRadius: "12px",
     boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
-    width: "450px",
+    width: "850px",
     margin: "auto",
     marginTop: "50px",
     fontFamily: "'Arial', sans-serif",
@@ -597,6 +599,6 @@ const styles = {
   },
   
 };
-
+  
 
 export default MD5Generator;

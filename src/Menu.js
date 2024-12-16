@@ -22,6 +22,8 @@ function Menu() {
           
           <MenuItem icon={<FaKey />} label={<Link to="/MD5Generator" style={styles.linkStyle}>Mã hóa MD5</Link>} isOpen={isOpen} />
           <MenuItem icon={<FaHome />} label={<Link to="/trangtru" style={styles.linkStyle}>Trang Chủ</Link>} isOpen={isOpen} />
+          <MenuItem icon={<FaFileAlt />} label={<Link to="/fileMD5" style={styles.linkStyle}>Băm File</Link>} isOpen={isOpen} />
+          <MenuItem icon={<FaCode />} label={<Link to="/chukyso" style={styles.linkStyle}>chữ ký số</Link>} isOpen={isOpen} />
           
          
         </ul>
@@ -34,7 +36,7 @@ function MenuItem({ icon, label, isOpen }) {
   return (
     <li 
       style={isOpen ? styles.menuItem : styles.menuItemCollapsed} 
-      title={isOpen ? '' : label}  // This will show the tooltip on hover when collapsed
+      title={isOpen ? '' : label}  
     >
       <span style={styles.iconContainer}>{icon}</span>
       {isOpen && <span style={styles.label}>{label}</span>}
